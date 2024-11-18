@@ -28,7 +28,7 @@ const Header = () => {
       
      {/* Header */}
 
-      <header className="bg-black relative top-6 text-white border border-white border-opacity-10 rounded-xl mx-auto flex items-center justify-between  xl:w-[494px] lg:w-[494px] md:w-[494px] p-4">
+      <header className="bg-transparent relative top-6 text-white border border-white border-opacity-10 rounded-xl mx-auto flex items-center justify-between  xl:w-[494px] lg:w-[494px] md:w-[494px] p-4">
         <Image
           className="logo ml-4"
           src={logo}
@@ -168,15 +168,14 @@ const Header = () => {
               className="mx-auto"
             />
             <h6 className="font-secondary box-border">Get Started</h6>
-            {/* Dialog Box */}
+          </button>
+{/* Dialog Box */}
             {isDialogOpen && (
               <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
                 <Form onClose={toggleDialog} />{" "}
                 {/* Pass close function to Form */}
               </div>
             )}
-          </button>
-
           <button className="bg-white/15 border-2 border-white/15 text-white rounded-3xl pt-3 pb-3 pl-4 pr-4 max-sm:p-3 flex items-center justify-center gap-3 font-secondary box-border">
             <a href="#courses">Browse Courses</a>
           </button>
