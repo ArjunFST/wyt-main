@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { fetchSettingsData } from "@/app/hooks/settingsData";
 import Image from "next/image";
 import header_background from "../../../public/page3.svg";
 import arrow from "../../assets/Frame 1000001083.png";
@@ -13,6 +14,9 @@ import Form from "../form/Form";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog state
+  
+  const { settingsData } = fetchSettingsData();
+  console.log('Settings Data=>>',settingsData);
 
   const toggleMenu = () => {
     setMenuOpen((prevMenuOpen) => !prevMenuOpen);
@@ -31,7 +35,7 @@ const Header = () => {
       <header className="bg-black relative top-6 text-white border border-white border-opacity-10 rounded-xl mx-auto flex items-center justify-between  xl:w-[494px] lg:w-[494px] md:w-[494px] p-4">
         <Image
           className="logo ml-4"
-          src={logo}
+          src={settingsData?.logo?.image}
           alt="Logo"
           width={31.33}
           height={31.27}
@@ -56,25 +60,25 @@ const Header = () => {
             href="#about"
             className="hover:text-gray-400 text-base font-primary"
           >
-            About
+            {settingsData?.headerItems?.[0]?.navTitle}
           </a>
           <a
             href="#events"
             className="hover:text-gray-400 text-base font-primary"
           >
-            Events
+            {settingsData?.headerItems?.[1]?.navTitle} 
           </a>
           <a
             href="#courses"
             className="hover:text-gray-400 text-base font-primary"
           >
-            Courses
+            {settingsData?.headerItems?.[2]?.navTitle} 
           </a>
           <a
             href="#gallery"
             className="hover:text-gray-400 text-base font-primary mr-10"
           >
-            Gallery
+            {settingsData?.headerItems?.[3]?.navTitle} 
           </a>
         </nav>
 
@@ -86,28 +90,28 @@ const Header = () => {
               href="#about"
               className="hover:text-gray-400 text-lg font-primary"
             >
-              About
+              {settingsData?.headerItems?.[0]?.navTitle} 
             </a>
             <a
               onClick={toggleMenu}
               href="#events"
               className="hover:text-gray-400 text-lg font-primary"
             >
-              Events
+              {settingsData?.headerItems?.[1]?.navTitle } 
             </a>
             <a
               onClick={toggleMenu}
               href="#courses"
               className="hover:text-gray-400 text-lg font-primary"
             >
-              Courses
+              {settingsData?.headerItems?.[2]?.navTitle } 
             </a>
             <a
               onClick={toggleMenu}
               href="#gallery"
               className="hover:text-gray-400 text-lg font-primary"
             >
-              Gallery
+              {settingsData?.headerItems?.[3]?.navTitle || 'Gallery'} 
             </a>
           </nav>
         )}
