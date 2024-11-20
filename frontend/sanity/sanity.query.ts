@@ -61,8 +61,11 @@ export async function getWatyLearningHomepage() {
         "items": items[]{
           courseTitle,
           CourseDescription,
+          courseDateTitle,
           courseDate,
+          coursePeriodTitle,
           coursePeriod,
+          enrollNowAction,
           "image": image.asset->url
         }
       },

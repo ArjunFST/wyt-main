@@ -24,72 +24,75 @@ export type SettingsType = {
   };
 
   export type WatyLearningHomepageType = {
-    title: string;
+    title: string,
     header: {
-      headerTitle: string;
-      headerDescription: string;
-      firstLinkTitle: string;
-      secondLinkTitle: string;
-    };
+      headerTitle: string,
+      headerDescription: string,
+      firstLinkTitle: string,
+      secondLinkTitle: string,
+    },
     about: {
-      aboutTitle: string;
-      aboutDescription: string;
-      aboutContent: string;
-      firstLinkTitle: string;
-      firstLinkDescription: string;
-      secondLinkTitle: string;
-      secondLinkDescription: string;
+      aboutTitle: string,
+      aboutDescription: string,
+      aboutContent: string,
+      firstLinkTitle: string,
+      firstLinkDescription: string,
+      secondLinkTitle: string,
+      secondLinkDescription: string,
       image: {
         alt: string,
-        image: string
+        image: string,
       };
-    };
+    },
     vision: {
-      title: string;
-      description: string;
+      title: string,
+      description: string,
       items: {
-        title: string;
-        description: string;
-        image: string;
-      }[];
-    };
+        title: string,
+        description: string,
+        image: string,
+      }[],
+    },
     events: {
-      title: string;
+      title: string,
       items: {
-        courseTitle: string;
-        CourseDescription: string;
-        courseDate: string;
-        coursePeriod: string;
-        image: string;
-      }[];
-    };
+        courseTitle: string,
+        CourseDescription: string,
+        courseDateTitle: string,
+        courseDate: string,
+        coursePeriodTitle: string,
+        coursePeriod: string,
+        enrollNowAction: string,
+        image: string,
+      }[],
+    },
     courses: {
-      title: string;
-      subTitle: string;
-      description: string;
+      title: string,
+      subTitle: string,
+      description: string,
       items: {
-        courseCategory: string;
+        courseCategory: string,
         courses: {
-          courseTitle: string;
-          courseDuration: string;
-          Tag: string;
-          image: string;
-        }[];
-      }[];
-    };
+          courseTitle: string,
+          courseDuration: string,
+          Tag: string,
+          image: string,
+        }[],
+      }[],
+    },
     testimonials: {
-      title: string;
+      title: string,
       items: {
-        reviewer: string;
-        reviewerRole: string;
-        review: string;
-        reviewerImage: string;
-      }[];
-    };
+        reviewer: string,
+        reviewerRole: string,
+        review: string,
+        reviewerImage: string,
+      }[],
+    },
     gallery: {
-      title: string;
+      title: string,
       items: {
-        image: string;
-      }[];
-    };
+        image: string,
+      }[],
+    },
   };

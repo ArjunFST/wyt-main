@@ -2,6 +2,7 @@
 
 "use client";
 import { useState } from "react";
+import { fetchWatyLearningHomepageData } from "@/app/hooks/pageData";
 
 import course from "../../../public/finalcourse1.svg";
 import img from "../../assets/courseimg1.svg";
@@ -11,6 +12,7 @@ import Image from "next/image";
 import arrow from "../../../public/courseArrowIcon.svg";
 import email from "../../assets/emailmarketing.svg";
 import Form from "../form/Form";
+import EnhancedShimmer from "../shimmer/enhancedShimmer";
 
 const techCourses = [
   {
@@ -133,16 +135,31 @@ const softSkills = [
 ];
 
 const CoursesSection = () => {
-  const [selectedCategory, setSelectedCategory] = useState("tech"); // Default category
+const { watyLearningData } = fetchWatyLearningHomepageData();
+console.log('watyLearningData Course Data=>>',watyLearningData);
+const { 
+  title = "", 
+  subTitle = "",
+  description = "", 
+  items = [] 
+} = watyLearningData?.courses || {};
+const [selectedCategory, setSelectedCategory] = useState(
+  items[0]?.courseCategory || ""
+);
+
+// Filter courses based on the selected category
+const selectedCourses =
+  items.find((category) => category.courseCategory === selectedCategory)
+    ?.courses || []; // Default category
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog state
 
   const toggleDialog = () => setIsDialogOpen((prev) => !prev);
 
   // Determine which courses to display based on the selected category
   const coursesToDisplay =
-    selectedCategory === "languages"
+    selectedCategory === "Languages"
       ? languages
-      : selectedCategory === "softSkills"
+      : selectedCategory === "Soft Skills"
       ? softSkills
       : techCourses;
 
@@ -154,43 +171,114 @@ const CoursesSection = () => {
     >
       <div className="text-center pt-20 max-sm:pt-10">
         <h1 className="font-bold font-tertiary xl:text-future lg:text-future md:text-3xl pb-5">
-          Explore
+          {title}
         </h1>
         <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 font-bold font-tertiary 2xl:text-future xl:text-future lg:text-future md:text-future sm:text-3xl pb-5">
-          OUR COURSES
+          {subTitle}
         </h2>
         <h1 className="text-boost 2xl:text-hawk xl:text-hawk lg:text-hawk md:text-hawk sm:text-xl">
-          Boost your skills with courses crafted by experts
+          {description}
         </h1>
+      </div>
+
+      {/* Category Tabs */}
+      <div className="flex justify-center items-center mt-16">
+        <div className="flex overflow-x-auto gap-4 button-group scrollbar-hide">
+          {items.map((category) => (
+            <button
+              key={category.courseCategory}
+              onClick={(e) => {
+                setSelectedCategory(category.courseCategory);
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                  inline: "center",
+                });
+              }}
+              className={`px-10 py-3 rounded-full font-primary font-bold text-xl max-sm:text-sm box-border whitespace-nowrap hover:bg-techColor hover:text-white ${
+                selectedCategory === category.courseCategory
+                  ? "bg-techColor text-white"
+                  : "text-coursesColor border border-gray-400"
+              }`}
+            >
+              {category.courseCategory === "Tech Courses" ? "Tech Courses" : category.courseCategory === "Languages" ? "Languages" : "Soft Skills"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Courses Grid */}
+      <div className="flex justify-center">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10 mt-16 xl:w-[80%] lg:w-[80%] md:w-[80%] max-sm:w-[80%] mb-20">
+          {selectedCourses.map((course) => (
+            <div
+              key={course.courseTitle}
+              className="rounded-xl overflow-hidden shadow-lg bg-cardColor text-paraColor hover:text-white"
+            >
+              {/* Course Image */}
+              <Image
+                src={course.image}
+                alt={course.courseTitle}
+                className="w-[90%] object-cover mx-auto rounded-xl relative top-4"
+                width={300}
+                height={200}
+              />
+
+              {/* Course Details */}
+              <div className="px-6 py-6">
+                <div className="flex flex-row justify-between items-center">
+                  <h2 className="font-primary font-bold text-heading">
+                    {course.courseTitle}
+                  </h2>
+                  <p className="font-secondary text-card">{course.courseDuration}</p>
+                </div>
+              </div>
+
+              {/* Enroll Button */}
+              <div className="mb-6 ml-64 max-xl:ml-36 max-sm:ml-48">
+                <button
+                  onClick={() => alert(`Enrolling in ${course.courseTitle}`)} // Placeholder for enrollment logic
+                  className="flex items-center gap-3 px-2 py-1 text-white rounded-full bg-formBtnColor bg-white/20 hover:bg-formBtnColor"
+                >
+                  <Image
+                    src={arrow} // Replace with your actual arrow icon path
+                    alt="arrow"
+                    width={19}
+                    height={19}
+                  />
+                  <span className="font-secondary text-card">Enroll now</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
 
       <div className="flex justify-center items-center mt-16">
-  <div className="flex overflow-x-auto gap-4 button-group scrollbar-hide">
-    {["tech", "languages", "softSkills"].map((category) => (
-      <button
-        key={category}
-        onClick={(e) => {
-          setSelectedCategory(category);
-          e.target.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center",
-          });
-        }}
-        className={`px-10 py-3 rounded-full font-primary font-bold text-xl max-sm:text-sm box-border whitespace-nowrap hover:bg-techColor hover:text-white ${
-          selectedCategory === category
-            ? "bg-techColor text-white"
-            : "text-coursesColor border border-gray-400"
-        }`}
-      >
-        {category === "tech" ? "Tech Courses" : category === "languages" ? "Languages" : "Soft Skills"}
-      </button>
-    ))}
-  </div>
-</div>
-
-
+        {items.map((category) => (
+          <div className="flex overflow-x-auto gap-4 button-group scrollbar-hide">
+            <button
+              key={category.courseCategory}
+              onClick={(e) => {
+                setSelectedCategory(category.courseCategory);
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                  inline: "center",
+                });
+              }}
+              className={`px-10 py-3 rounded-full font-primary font-bold text-xl max-sm:text-sm box-border whitespace-nowrap hover:bg-techColor hover:text-white ${
+                selectedCategory === category.courseCategory
+                  ? "bg-techColor text-white"
+                  : "text-coursesColor border border-gray-400"
+              }`}
+            >
+              {category.courseCategory === "Tech Courses" ? "Tech Courses" : category.courseCategory === "Languages" ? "Languages" : "Soft Skills"}
+            </button>
+        </div>
+        ))}
+      </div>
 
       <div className="flex justify-center">
         <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10 mt-16 xl:w-[80%] lg:w-[80%] md:w-[80%] max-sm:w-[80%] mb-20">
